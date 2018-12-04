@@ -1,39 +1,71 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-  <style></style>
-</head>
-<body>
-  
-</body>
-</html> -->
-
 <script type="text/javascript">
-    RED.nodes.registerType('ml-loader',{
-        category: 'function',
-        color: '#28abdf',
+    RED.nodes.registerType("ml-loader", {
+        category: "function",
+        color: "#C0DEED",
         defaults: {
-            name: {value:""}
+            name: { value: "ML Loader" },
+            mtype : { value : "" },
+            msource : { value: "file", required: true},
+            url : { value: ""},
+            file : {value: ""}
         },
         inputs:1,
         outputs:1,
-        icon: "file.png",
+        icon: "ml_icon_white.svg",
         label: function() {
-            return this.name||"ml-loader";
+            return this.name || "ml-loader";
+        },
+        oneditprepare: function() {
+            let node = this;
+            $("#node-input-msource").change(function(e) {
+                node.msource = this.value;
+                $(".node-row-url").toggle(node.msource === "url");
+                $(".node-row-file").toggle(node.msource === "file");
+            });
+        },
+        oneditsave: function () {
+            let node = this;
+            if (node.mtype && (node.url || node.file)) {
+                node.status({ fill: "green", shape: "dot", text: "Model loaded" });
+            }
+            else {
+                node.status({ fill: "red", shape: "ring", text: "no model loaded" });
+            }
         }
     });
 </script>
 
 <script type="text/x-red" data-template-name="ml-loader">
     <div class="form-row">
-        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <label for="node-input-name"><i class="icon-tag"></i>Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-mtype"><i class="icon-tag"></i>Model Type</label>
+        <select id="node-input-mtype">
+            <option value="sklearn">Python Scikit-Learn</option>
+            <option value="tensorflow">Tensorflow</option>
+            <option value="pytorch">Pytorch</option>
+            <option value="caffe">Caffe</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-msource"><i class="icon-wrench"></i>Source Type</label>
+        <select id="node-input-msource">
+            <option value="file" selected>File</option>
+            <option value="url">URL</option>
+        </select>
+    </div>
+    <div class="form-row node-row-url">
+        <label for="node-input-url"><i class="icon-globe"></i>Model URL</label>
+        <input type="text" id="node-input-url" placeholder="http://">
+    </div>
+    <div class="form-row node-row-file">
+        <label for="node-input-file"><i class="icon-file"></i>Model file</label>
+        <input type="file" id="node-input-file" placeholder="file://">
     </div>
 </script>
 
 <script type="text/x-red" data-help-name="ml-loader">
-    <p>A simple node that converts the message payloads into all lower-case characters</p>
+    <p>A simple node that loads a machine learning model and applies it on its input data.</p>
 </script>
