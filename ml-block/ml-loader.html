@@ -1,0 +1,39 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style></style>
+</head>
+<body>
+  
+</body>
+</html> -->
+
+<script type="text/javascript">
+    RED.nodes.registerType('ml-loader',{
+        category: 'function',
+        color: '#28abdf',
+        defaults: {
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"ml-loader";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ml-loader">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="ml-loader">
+    <p>A simple node that converts the message payloads into all lower-case characters</p>
+</script>

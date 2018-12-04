@@ -1,0 +1,22 @@
+{
+  "name": "node-red-contrib-ml-loader",
+  "version": "0.0.1",
+  "description": "This is a Node-Red block which allows to load a Machine Learning model and to process data with it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha"
+  },
+  "author": "Daniele Bissoli, Tomasz Zbudowski",
+  "license": "MIT",
+  "node-red": {
+    "nodes": {
+      "ml-loader": "ml-loader.js"
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "node-red": "^0.19.5",
+    "node-red-node-test-helper": "^0.1.8"
+  }
+}
