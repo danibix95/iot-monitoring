@@ -13,10 +13,18 @@
       "ml-loader": "ml-loader.js"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "@tensorflow/tfjs": "^0.14.0",
+    "@tensorflow/tfjs-node": "^0.1.21",
+    "node-fetch": "^2.3.0"
+  },
   "devDependencies": {
+    "express": "^4.16.4",
+    "express-fileupload": "^1.0.0",
     "mocha": "^5.2.0",
+    "multer": "^1.4.1",
     "node-red": "^0.19.5",
-    "node-red-node-test-helper": "^0.1.8"
+    "node-red-node-test-helper": "^0.1.8",
+    "should": "^13.2.3"
   }
 }
