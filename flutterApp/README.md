@@ -1,4 +1,4 @@
-# Flutter Charts Demo
+# Office monitoring app based on flutter charts demon
 
 A Flutter app to showcase different types of Graphs.
 
