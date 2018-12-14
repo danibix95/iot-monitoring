@@ -6,7 +6,6 @@
             name: { value: "ML Loader" },
             mtype : { value: "" },
             modelurl : { value: "" },
-            weightsurl : { value: "" },
             loaderurl : { value: "" }
         },
         inputs:1,
@@ -17,7 +16,6 @@
         },
         oneditprepare: function() {
             $("#node-input-mtype").change(function(e) {
-                $(".node-row-additional-1").toggle(this.value === "tensorflow");
                 $(".node-row-additional-2").toggle(this.value === "sklearn");
             });
         },
@@ -32,19 +30,13 @@
     <div class="form-row">
         <label for="node-input-mtype"><i class="icon-tag"></i>Model Type</label>
         <select id="node-input-mtype">
-            <option value="tensorflow">Tensorflow</option>
+            <option value="tensorflow">Tensorflow (Keras Model)</option>
             <option value="sklearn">Python Scikit-Learn</option>
-            <!--<option value="pytorch">Pytorch</option>-->
-            <!--<option value="caffe">Caffe</option>-->
         </select>
     </div>
     <div class="form-row">
         <label for="node-input-modelurl"><i class="icon-globe"></i>Model URL</label>
         <input type="text" id="node-input-modelurl" placeholder="http://">
-    </div>
-    <div class="form-row node-row-additional-1">
-        <label for="node-input-weightsurl"><i class="icon-globe"></i>Weights URL</label>
-        <input type="text" id="node-input-weightsurl" placeholder="http://">
     </div>
     <div class="form-row node-row-additional-2">
         <label for="node-input-loaderurl"><i class="icon-globe"></i>Loader URL</label>

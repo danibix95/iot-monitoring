@@ -31,3 +31,5 @@ node_modules/
 # other
 .idea
 models
+localLoader.py
+model_down.joblib
