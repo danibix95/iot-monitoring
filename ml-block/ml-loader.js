@@ -11,11 +11,10 @@ module.exports = function (RED) {
         RED.nodes.createNode(this, config);
 
         let node = this;
-        // let nodeContext = node.context();
+
         // assign user configuration to current block
         node.mtype = config.mtype;
         node.modelurl = config.modelurl;
-        node.weightsurl = config.weightsurl;
         node.loaderurl = config.loaderurl;
 
         loadModel(node)
@@ -26,6 +25,7 @@ module.exports = function (RED) {
                 node.error(`Error loading the model: ${error}`);
                 throw new Error(`Loading error: ${error}`);
             });
+
         // input event => called every time a message arrives to this node
         node.on("input", function (msg) {
             msg.payload.prediction = undefined;
@@ -36,6 +36,8 @@ module.exports = function (RED) {
             else {
                 node.model.predict(msg.payload.values, msg.payload.shape)
                     .then((prediction) => {
+                        // in case the prediction has been returned
+                        // as json string, convert to js object
                         if (typeof prediction === "string") {
                             msg.payload.prediction = JSON.parse(prediction);
                         }
@@ -63,7 +65,7 @@ module.exports = function (RED) {
                 switch (node.mtype) {
                     case "tensorflow":
                         node.model = new models.TFModel();
-                        return node.model.loadTFModel(node.modelurl, node.weightsurl);
+                        return node.model.loadTFModel(node.modelurl);
                     case "sklearn":
                         if (node.loaderurl) {
                             node.model = new models.SKModel(node.loaderurl, node.modelurl);
@@ -72,10 +74,10 @@ module.exports = function (RED) {
                         else {
                             node.status({fill: "red", shape: "ring", text: "Model not loaded!"});
                             node.error("Impossible to load a model without its loader!");
+                            return null;
                         }
-                        break;
                     default: {
-                        node.status({fill: "yellow", shape: "ring", text: "No handler for selected model type!"});
+                        node.status({fill: "yellow", shape: "ring", text: "No handler available for selected model type!"});
                         return null;
                     }
                 }
@@ -83,6 +85,7 @@ module.exports = function (RED) {
             else {
                 node.status({fill: "red", shape: "ring", text: "Model not loaded!"});
                 node.error("Impossible to load an empty model! Assign one to the block.");
+                return null;
             }
         }
     }

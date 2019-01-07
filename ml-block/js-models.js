@@ -15,10 +15,22 @@ class MLModel {}
  *
  */
 class TFModel extends MLModel {
+    /** Create an instance of a TFModel (a TensorFlow model) */
     constructor() {
         super();
     }
 
+    /** Load into current instance the model architecture and weights
+     *  that have been passed in the given URL.
+     *
+     * @param modelUrl  The URL where to find the model architecture.
+     *                  **NOTE:** TFModel implementation accepts only TensorFlow models
+     *                  that have been saved for TensorFlow JS with Keras format.
+     *                  Moreover, while it is expected that given URL points to the JSON architecture representation,
+     *                  in the same folder there should also be the list of shards
+     *                  that represents model parameters saved in binary form.
+     * @returns {Promise<Model | never>}
+     */
     loadTFModel(modelUrl) {
         return tf.loadModel(modelUrl)
             .then((mod) => {
@@ -29,16 +41,26 @@ class TFModel extends MLModel {
             });
     }
 
+    /** Execute loaded model on given input values and return its prediction outcome
+     *
+     * @param values    the values passed in input to the model
+     * @param shape     the shape of values parameter (e.g. 1-D vector, 2-D vector, ...)
+     *                  usually it has the following form: [number of sample, dim1, [dim2, ] ...]
+     * @returns {*}     the value predicted by the model
+     */
     predict(values, shape) {
-        let data = tf.tensor(values, shape);
+        let data = tf.tensor([...values], shape);
         if (this.arch) return this.arch.predict(data).data();
     }
 }
 
-/** Class for handling Python Scikit-learn models
- *
- */
+/** Class for handling Python Scikit-learn models */
 class SKModel extends MLModel {
+    /** Create an instance of a SKModel (Scikit-Learn model)
+     *
+     * @param modelLoader   the url from which download the python model loader
+     * @param modelUrl      the url from which download the pre-trained python model
+     */
     constructor(modelLoader, modelUrl) {
         super();
         this.modelLoader = modelLoader;
@@ -49,6 +71,11 @@ class SKModel extends MLModel {
             fs.unlinkSync(path.join(__dirname, this.fileName));
     }
 
+    /** Perform the downloading of the sci-kit learn model loader.
+     *  This is a python script that will be used to run the pre-trained model
+     *
+     * @returns {Promise<any>}
+     */
     downloadLoader() {
         let caller;
         const loaderFile = fs.createWriteStream(path.join(__dirname, this.fileName));
@@ -88,6 +115,14 @@ class SKModel extends MLModel {
         return new Promise(download);
     }
 
+    /** Execute the previous downloaded script with given parameters
+     *  and return the predicted value.
+     *
+     * @param values    the values passed in input to the model
+     * @param shape     the shape of values parameter (e.g. 1-D vector, 2-D vector, ...)
+     *                  usually it has the following form: [number of sample, dim1, [dim2, ] ...]
+     * @returns {Promise<any>} the predicted value after the promise is fulfilled
+     */
     predict(values, shape) {
         const scriptOptions = {
             mode: 'text',

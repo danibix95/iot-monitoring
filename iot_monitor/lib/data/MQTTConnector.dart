@@ -78,10 +78,10 @@ class MQTTConnector {
           var res = jsonDec.convert(pkg);
           var dt = DateTime.parse(res["datetime"]);
           try {
-            _lightMessages.add(DataPacket(res['luminosity'].toDouble(), dt));
-            _tempMessages.add(DataPacket(res['temperature'].toDouble(), dt));
-            _humidMessages.add(DataPacket(res['humidity'].toDouble(), dt));
-            _loudMessages.add(DataPacket(res['loudness'].toDouble(), dt));
+            _lightMessages.add(DataPacket(res['luminosity'].toDouble(), dt, anomaly: res['anomaly']));
+            _tempMessages.add(DataPacket(res['temperature'].toDouble(), dt, anomaly: res['anomaly']));
+            _humidMessages.add(DataPacket(res['humidity'].toDouble(), dt, anomaly: res['anomaly']));
+            _loudMessages.add(DataPacket(res['loudness'].toDouble(), dt, anomaly: res['anomaly']));
 
             if (_lightMessages.length > MAX_BARS) {
               _lightMessages.removeFirst();

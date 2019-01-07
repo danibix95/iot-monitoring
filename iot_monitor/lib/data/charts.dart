@@ -24,7 +24,7 @@ class TimeSeriesBar extends StatelessWidget {
         new charts.Series<DataPacket<double>, DateTime>(
           id: 'Sensors',
           colorFn: (DataPacket<double> pkt, _) =>
-          pkt.value > 60 ? charts.MaterialPalette.deepOrange.shadeDefault
+          pkt.anomaly ? charts.MaterialPalette.deepOrange.shadeDefault
               : charts.MaterialPalette.indigo.shadeDefault,
           domainFn: (DataPacket<double> pkt, _) => pkt.time,
           measureFn: (DataPacket<double> pkt, _) => pkt.value,
@@ -86,7 +86,7 @@ class TimeSeriesBar extends StatelessWidget {
       new charts.Series<DataPacket<double>, DateTime>(
         id: 'Sensors',
         colorFn: (DataPacket data, _) =>
-          data.value > 60 ? charts.MaterialPalette.deepOrange.shadeDefault
+          data.anomaly ? charts.MaterialPalette.deepOrange.shadeDefault
                           : charts.MaterialPalette.indigo.shadeDefault,
         domainFn: (DataPacket data, _) => data.time,
         measureFn: (DataPacket data, _) => data.value,

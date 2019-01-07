@@ -1,7 +1,7 @@
 <script type="text/javascript">
     RED.nodes.registerType("ml-loader", {
         category: "function",
-        color: "#C0DEED",
+        color: "#60A1FD",
         defaults: {
             name: { value: "ML Loader" },
             mtype : { value: "" },
@@ -45,5 +45,48 @@
 </script>
 
 <script type="text/x-red" data-help-name="ml-loader">
-    <p>A simple node that loads a machine learning model and applies it on its input data.</p>
+    <p>A block that execute machine learning or deep learning pre-trained models on given input message</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>Model Type
+                <span class="property-type">string</span>
+            </dt>
+            <dd>The type of pre-trained model that should be loaded.</dd>
+            <dt>Model URL
+                <span class="property-type">string</span>
+            </dt>
+            <dd>The URL where the model is located.</dd>
+            <dt>Model Loader
+                <span class="property-type">string</span>
+            </dt>
+            <dd>The URL where is located the python script employed to load Scikit-learn models.</dd>
+            <dt>payload
+                <span class="property-type">object</span>
+            </dt>
+            <dd>A JS object containing two members: <code>values</code> and <code>shape</code>. The former are the values given as input to the model, while the latter describe the shape of input data.</dd>
+        </dl>
+
+     <h3>Outputs</h3>
+         <ol class="node-ports">
+             <li>Standard output
+                 <dl class="message-properties">
+                     <dt>payload <span class="property-type">object</span></dt>
+                     <dd>the corresponding class or prediction associated to input data. The resulting values are set in <code>predictions</code> field.</dd>
+                 </dl>
+             </li>
+         </ol>
+
+    <h3>Details</h3>
+    <p>
+        <code>msg.payload.values</code> and <code>msg.payload.shape</code> are used as input for the machine learning model.
+        If the input is correct and in the right shape according to given model, it returns a list of corresponding predictions or labels (depending on the kind of model). This list is set in the property <code>msg.payload.predictions</code> of the block outcome message if no error occours. Otherwise it returns an error.
+    </p>
+    <strong>Example of input message</strong>
+    <pre>
+msg.payload = {
+  values = [[730], [24], [35], [40]];
+  shape = [1,4,1];
+}</pre>
+    <em><strong>Note: </strong>the shape value is specified in the following manner: </em><code>[&lt;number-of-samples&gt;, &lt;dim1&gt;, &lt;dim2&gt;, ...]</code>
 </script>
