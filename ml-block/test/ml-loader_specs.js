@@ -6,6 +6,7 @@ global.fetch = require("node-fetch");
 
 helper.init(require.resolve('node-red'));
 
+// Notice: tests have not been updated to match latest version of the code.
 describe('ml-loader Node', function () {
     afterEach(function () {
         helper.unload();
@@ -37,7 +38,7 @@ describe('ml-loader Node', function () {
                 type: "ml-loader",
                 name: "test-name",
                 mtype : "tensorflow",
-                modelurl : "http://localhost:30000/webModel/keras_model.json",
+                modelurl : "http://localhost:30000/models/tensorflow/model.json",
             }
         ];
 
@@ -59,8 +60,8 @@ describe('ml-loader Node', function () {
                 type: "ml-loader",
                 name: "test-name",
                 mtype : "sklearn",
-                modelurl : "http://localhost:30000/model.joblib",
-                loaderurl : "http://localhost:30000/loader.py"
+                modelurl : "http://localhost:30000/models/sk-learn/model.joblib",
+                loaderurl : "http://localhost:30000/models/sk-learn/loader.py"
             }
         ];
 
@@ -80,14 +81,13 @@ describe('ml-loader Node', function () {
                 type: "ml-loader",
                 name: "test-name",
                 mtype : "sklearn",
-                modelurl : "http://localhost:30000/model.joblib",
-                loaderurl : "http://localhost:30000/loader.py"
+		modelurl : "http://localhost:30000/models/sk-learn/model.joblib",
+                loaderurl : "http://localhost:30000/models/sk-learn/loader.py"
             },
             { id: "n2", type: "helper" }
         ];
 
         helper.load(mlLoaderNode, flow, function () {
-            this.timeout(5000);
             let n1 = helper.getNode("n1");
             let n2 = helper.getNode("n2");
 
