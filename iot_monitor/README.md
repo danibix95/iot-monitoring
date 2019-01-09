@@ -1,16 +1,7 @@
-# iot_monitor
+# IoT Monitor Mobile Application
 
-A simple application for monitoring IoT sensors
+This is a simple mobile application for monitoring IoT sensors. Acquired data are retrieved via a MQTT communication and displayed in a time series chart.
 
-## Getting Started
+Below it is possible to observe its functioning:
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+![appAnimation](mApp.gif)

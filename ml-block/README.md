@@ -7,6 +7,7 @@ In order to install this block it is necessary to have the following software in
 - python ^3.6
 - scikit-learn ^0.19.2
 - numpy ^1.15.1
+- tensorflow ^1.12.0
 - nodejs ^10.0.0
 - node-red ^0.19.5
 
